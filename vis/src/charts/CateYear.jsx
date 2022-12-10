@@ -48,7 +48,6 @@ export default function CateYear() {
       .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
 
     const chords = chord(matrix());
-    console.log(chords)
     const group = svg.append("g")
       .attr("font-size", 10)
       .attr("font-family", "sans-serif")
@@ -73,11 +72,11 @@ export default function CateYear() {
       .attr('fill', '#fff');
 
 
-    group.append("title")
-      .text(d => `${names[d.index]}
-${d3.sum(chords, c => (c.source.index === d.index) * c.source.value)} outgoing →
-${d3.sum(chords, c => (c.target.index === d.index) * c.source.value)} incoming ←`)
-      .attr('fill', '#fff');
+    //     group.append("title")
+    //       .text(d => `${names[d.index]}
+    // ${d3.sum(chords, c => (c.source.index === d.index) * c.source.value)} outgoing →
+    // ${d3.sum(chords, c => (c.target.index === d.index) * c.source.value)} incoming ←`)
+    // .attr('fill', '#fff');
 
     const chordLink = svg.append("g")
       .attr("fill-opacity", 0.75)
@@ -90,8 +89,18 @@ ${d3.sum(chords, c => (c.target.index === d.index) * c.source.value)} incoming �
       // .style("mix-blend-mode", "multiply")
       .attr("fill", d => color(names[d.target.index]))
       .attr("d", ribbon)
+      .on('mouseover', function (d, i) {
+        d3.select(this).transition()
+          .duration('50')
+          .attr('fill', '#fff')
+      })
+      .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+          .duration('50')
+          .attr('fill', d => color(names[d.target.index]))
+      })
       .append("title")
-      .text(d => `${names[d.source.index]} → ${names[d.target.index]} ${d.source.value}`)
+      .text(d => `${names[d.target.index]} ${names[d.source.index]} ${d.source.value}`)
       .attr('fill', '#fff');
 
 
