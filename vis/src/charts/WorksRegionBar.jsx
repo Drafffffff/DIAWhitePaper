@@ -37,7 +37,6 @@ export default function WorksRegionBar() {
 
 
   onMount(() => {
-
     const root = d3.select('#WorksRegionBar')
     const svg = root.append('svg')
       .attr("width", width)
